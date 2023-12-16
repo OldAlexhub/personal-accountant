@@ -59,12 +59,29 @@ const Report = () => {
   const handleSearchChange = (e) => {
     setSearchDate(e.target.value);
   };
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  };
+
   // Filtered list based on search query
   const filteredStatements = statement.filter((state) => {
-    return (
-      new Date(state.transaction_Date).toLocaleDateString() ===
-      new Date(searchDate).toLocaleDateString()
-    );
+    const formattedTransactionDate = formatDate(state.transaction_Date);
+
+    if (searchDate.length === 10) {
+      // User is searching for an exact date
+      return formattedTransactionDate === searchDate;
+    } else if (searchDate.length === 7) {
+      // User is searching for a month and year (MM/YYYY)
+      const [month, year] = searchDate.split("/");
+      const [transMonth, transDay, transYear] =
+        formattedTransactionDate.split("/");
+      return month === transMonth && year === transYear;
+    }
+    return true;
   });
 
   const convertToCSV = (objArray) => {
@@ -112,11 +129,12 @@ const Report = () => {
               Search by Transaction Date:
             </label>
             <input
-              type="date"
+              type="text" // Changed to text to allow for MM/DD/YYYY input
               className="form-control"
               id="searchDate"
               value={searchDate}
               onChange={handleSearchChange}
+              placeholder="MM/DD/YYYY or MM/YYYY"
             />
           </div>
           <button

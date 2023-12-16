@@ -7,6 +7,7 @@ import Login from "../routes/Login";
 import PL from "../routes/PL";
 import Report from "../routes/Report";
 import Signup from "../routes/Signup";
+import Charts from "../routes/Charts";
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
@@ -44,6 +45,14 @@ const RouteManager = () => {
             element={
               <ProtectedRoute>
                 <Report />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="charts"
+            element={
+              <ProtectedRoute>
+                <Charts />
               </ProtectedRoute>
             }
           />

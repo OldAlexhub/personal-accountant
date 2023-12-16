@@ -3,6 +3,8 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 const Layout = () => {
   const navigate = useNavigate();
 
+  const name = localStorage.getItem("name");
+
   // Check if the user is authenticated
   const isAuthenticated = localStorage.getItem("token") !== null;
 
@@ -11,6 +13,7 @@ const Layout = () => {
 
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+    localStorage.removeItem("name");
 
     navigate("/");
   };
@@ -41,11 +44,6 @@ const Layout = () => {
               {isAuthenticated && (
                 <>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/pl">
-                      P&L
-                    </Link>
-                  </li>
-                  <li className="nav-item">
                     <Link className="nav-link" to="/add">
                       Add
                     </Link>
@@ -53,6 +51,16 @@ const Layout = () => {
                   <li className="nav-item">
                     <Link className="nav-link" to="/reports">
                       Reports
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/pl">
+                      P&L
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/charts">
+                      Charts
                     </Link>
                   </li>
                 </>
@@ -68,6 +76,9 @@ const Layout = () => {
                   >
                     Logout
                   </Link>
+                </li>
+                <li className="nav-item">
+                  <span className="navbar-text">Welcome, {name}</span>
                 </li>
               </ul>
             )}

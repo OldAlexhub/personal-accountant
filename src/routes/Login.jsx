@@ -23,8 +23,10 @@ const Login = () => {
       const response = await axios.post(process.env.REACT_APP_LOGIN, formData);
       const userId = response.data.userId;
       const token = response.data.token;
+      const name = response.data.name;
       localStorage.setItem("userId", userId);
       localStorage.setItem("token", token);
+      localStorage.setItem("name", name);
 
       setAlert({
         show: true,
