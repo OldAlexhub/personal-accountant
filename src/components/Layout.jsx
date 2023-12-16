@@ -1,20 +1,21 @@
+import React, { useState } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 
 const Layout = () => {
   const navigate = useNavigate();
-
   const name = localStorage.getItem("name");
-
-  // Check if the user is authenticated
   const isAuthenticated = localStorage.getItem("token") !== null;
+  const [collapsed, setCollapsed] = useState(true);
+
+  const handleToggleCollapse = () => {
+    setCollapsed(!collapsed);
+  };
 
   const handleLogout = (e) => {
     e.preventDefault();
-
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("name");
-
     navigate("/");
   };
 
@@ -25,7 +26,16 @@ const Layout = () => {
           <Link className="navbar-brand" to="/">
             Personal Accountant
           </Link>
-          <div className="collapse navbar-collapse">
+          <button
+            className="navbar-toggler"
+            type="button"
+            onClick={handleToggleCollapse}
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div
+            className={`collapse navbar-collapse${collapsed ? "" : " show"}`}
+          >
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link className="nav-link" to="/">
